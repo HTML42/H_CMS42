@@ -13,3 +13,4 @@ define('CMS42', dirname(dirname(__FILE__)) . '/');
 define('UPDATER', CMS42 . 'updater/');
 define('UPDATER_SCRIPT', UPDATER . 'script/');
 define('UPDATER_FILES', UPDATER . 'files/');
+define('DIST', CMS42 . 'dist/');

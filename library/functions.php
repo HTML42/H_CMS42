@@ -6,7 +6,7 @@ function ensure_ending_slash(&$dir) {
     }
 }
 
-function dump($var, $height = 'auto', $width = 'auto') {
+function debug($var, $height = 'auto', $width = 'auto') {
     $backtrace = debug_backtrace();
     $file = 'Unknown';
     $line = 'Unknown';
@@ -26,4 +26,18 @@ function dump($var, $height = 'auto', $width = 'auto') {
     var_dump($var);
     echo htmlspecialchars(ob_get_clean());
     echo '</pre>';
+}
+
+function return_filesize($filepath) {
+    $filesize = filesize($filepath);
+    if(!is_int($filesize)) {
+        return 'No-Filesize';
+    }
+    if($filesize < 100) {
+        return $filesize . 'byte';
+    } else if($filesize < 100*1000) {
+        return ($filesize / 1000) . 'kb';
+    } else {
+        return ($filesize / 1000 / 1000) . 'mb';
+    }
 }
