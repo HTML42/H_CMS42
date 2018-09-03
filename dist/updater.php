@@ -1,5 +1,7 @@
 <?php
 
+$UPDATER_FILES = json_decode('["index.php","version"]');
+
 function _get($url) {
     if (is_string($url) && strlen($url) > 5) {
         $url = trim($url);
@@ -25,10 +27,20 @@ $UPDATE_NEED = null;
 $CMS_VERSION_FILE = DIR_CMS . 'version';
 define('CMS_VERSION', (is_file($CMS_VERSION_FILE) ? trim(file_get_contents($CMS_VERSION_FILE)) : NULL));
 
+
+$baseurl = 'https://raw.githubusercontent.com/HTML42/H_CMS42/master/';
+$baseurl_files = $baseurl . 'updater/files/';
+
 $parent_folder = scandir(dirname(__DIR__));
 if (substr(__DIR__, -4) == 'dist' && in_array('demo', $parent_folder) && in_array('updater', $parent_folder)) {
     exit('<div>You are currently accessing to a source-File.</div>');
 }
+
+
+$_cdn_version = _get($baseurl_files . 'version');
+define('CDN_VERSION', is_string($_cdn_version) ? $_cdn_version : null);
+
+$UPDATE_NEED = false;
 
 if (!is_dir(DIR_CMS)) {
     mkdir(DIR_CMS);
@@ -37,15 +49,21 @@ if (!is_dir(DIR_CMS)) {
 
 if (!is_string(CMS_VERSION) || strlen(CMS_VERSION) < 1) {
     $UPDATE_NEED = true;
+} else if(CMS_VERSION != CDN_VERSION) {
+    $UPDATE_NEED = true;
 }
-$baseurl = 'https://raw.githubusercontent.com/HTML42/H_CMS42/master/';
-$baseurl_files = $baseurl . 'updater/files/';
 
-$_cdn_version = _get($baseurl_files . 'version');
-define('CDN_VERSION', is_string($_cdn_version) ? $_cdn_version : null);
+echo '<span>CDN-Version:</span>' . CDN_VERSION;
+echo '<br/>';
+echo '<span>CMS-Version:</span>' . CMS_VERSION;
+echo '<br/>';
+echo '<span>Update needed:</span>' . strval($UPDATE_NEED);
 
-echo 'CDN-Version: ' . CDN_VERSION;
-echo '<br/>';
-echo 'CMS-Version: ' . CMS_VERSION;
-echo '<br/>';
-echo 'Update needed: ' . strval($UPDATE_NEED);
+if($UPDATE_NEED) {
+    if (isset($UPDATER_FILES) && is_array($UPDATER_FILES)) {
+    foreach ($UPDATER_FILES as $relative_filepath) {
+        $file_content = _get($baseurl_files . $relative_filepath);
+        file_put_contents(DIR_CMS . $relative_filepath, $file_content);
+    }
+}
+}

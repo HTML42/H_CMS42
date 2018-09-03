@@ -4,7 +4,10 @@ $script_root = __DIR__;
 include '../library/quick_bootstrap.php';
 //
 $updatescript = updater_include('main.php', UPDATER_SCRIPT);
-$updatescript_min = minimize__php_file($updatescript);
+$updatescript = str_replace('#PLACEHOLDER-UPDATERFILES#', '$UPDATER_FILES = json_decode(\'' . json_encode(updater_files()) . '\');', $updatescript);
+//
+$updatescript_min = php_minimize($updatescript);
+$updatescript_min = php_var_shortener($updatescript_min);
 //
 if (!is_dir(DIST)) {
     mkdir(DIST);
@@ -56,18 +59,22 @@ function updater_include($filepath, $root = null) {
     return $file_content;
 }
 
-function minimize__php_file($php_code) {
+function php_minimize($php_code) {
     php_strip_whitespace_($php_code);
     //
     $php_code = preg_replace('/\s+/s', ' ', $php_code);
-    foreach (array('\;', '\&\&', '\|\|', '\=\=', '\!\=', '\{', '\}', '\(', '\)') as $a) {
+    foreach (array('\;', '\&\&', '\|\|', '\=\=', '\!\=', '\{', '\}', '\(', '\)', '\=', '\?', '\<', '\>') as $a) {
         $php_code = preg_replace('/\s*' . $a . '\s*/', str_replace('\\', '', $a), $php_code);
     }
     $php_code = preg_replace('/\<\?php\s*/i', '<?php ', $php_code);
     $php_code = preg_replace('/(.+\(.+), (.+\))/isU', '$1,$2', $php_code);
     $php_code = preg_replace('/\s+\.\s+/isU', '.', $php_code);
+    $php_code = preg_replace('/(.+\(.+) : (.+\))/isU', '$1:$2', $php_code);
+    $php_code = preg_replace('/(.+\(.+): (.+\))/isU', '$1:$2', $php_code);
+    $php_code = preg_replace('/(.+\(.+) :(.+\))/isU', '$1:$2', $php_code);
     //Commands
     $php_code = preg_replace('/echo\s*([\'\"])/', 'echo$1', $php_code);
+    $php_code = preg_replace('/else if/', 'elseif', $php_code);
     return $php_code;
 }
 
@@ -85,4 +92,48 @@ function php_strip_whitespace_(&$php_code) {
     usleep(500);
     //
     unlink($tmp_filepath);
+}
+
+function php_var_shortener($php_code, $counter = 0, $symbol_offset = 0) {
+    if (preg_match_all('/\$[\w_]+/', $php_code, $php_var_matches) && isset($php_var_matches[0]) && is_array($php_var_matches[0])) {
+        $php_var_reminder = array();
+        $php_var_symbols = array_merge(range('a', 'z'), range('A', 'Z'));
+        foreach ($php_var_matches[0] as $php_var) {
+            if (strlen($php_var) > 3 && !in_array($php_var, $php_var_reminder)) {
+                $new_varname = $php_var_symbols[count($php_var_reminder) + $symbol_offset];
+                $php_code = preg_replace('/\\' . $php_var . '/isU', '\$Z' . $new_varname, $php_code);
+                array_push($php_var_reminder, $php_var);
+            }
+        }
+    }
+    if ($counter < 2) {
+        $php_code = php_var_shortener($php_code, $counter + 1, count($php_var_reminder) + $symbol_offset);
+    }
+    return $php_code;
+}
+
+function updater_files() {
+    $_file_list = array();
+    foreach (scandir(UPDATER_FILES) as $updater_files_dim1) {
+        if (in_array($updater_files_dim1, array('.', '..'))) {
+            //
+        } else if (is_file(UPDATER_FILES . $updater_files_dim1)) {
+            array_push($_file_list, $updater_files_dim1);
+        } else {
+            $folder_dim1 = UPDATER_FILES . $updater_files_dim1 . '/';
+            //DIM2 Start
+            foreach (scandir($folder_dim1) as $updater_files_dim2) {
+                if (in_array($updater_files_dim2, array('.', '..'))) {
+                    //
+                } else if (is_file($folder_dim1 . $updater_files_dim2)) {
+                    array_push($_file_list, $updater_files_dim1 . '/' . $updater_files_dim2);
+                } else {
+                    $folder_dim3 = $folder_dim1 . $updater_files_dim2 . '/';
+                    //Only 2 Dimensions
+                }
+            }
+            //DIM2 End
+        }
+    }
+    return $_file_list;
 }
