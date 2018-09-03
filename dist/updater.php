@@ -20,7 +20,7 @@ function _get($url) {
     }
     return null;
 }
-define('DIR_CMS', __DIR__ . '/42/');
+define('DIR_CMS', str_replace('/42', '', __DIR__) . '/42/');
 
 $UPDATE_NEED = null;
 
@@ -53,17 +53,12 @@ if (!is_string(CMS_VERSION) || strlen(CMS_VERSION) < 1) {
     $UPDATE_NEED = true;
 }
 
-echo '<span>CDN-Version:</span>' . CDN_VERSION;
-echo '<br/>';
-echo '<span>CMS-Version:</span>' . CMS_VERSION;
-echo '<br/>';
-echo '<span>Update needed:</span>' . strval($UPDATE_NEED);
-
 if($UPDATE_NEED) {
     if (isset($UPDATER_FILES) && is_array($UPDATER_FILES)) {
     foreach ($UPDATER_FILES as $relative_filepath) {
-        $file_content = _get($baseurl_files . $relative_filepath);
-        file_put_contents(DIR_CMS . $relative_filepath, $file_content);
+        file_put_contents(DIR_CMS . $relative_filepath, _get($baseurl_files . $relative_filepath));
     }
 }
+
+file_put_contents(DIR_CMS . 'update.php', _get($baseurl . 'dist/updater.min.php'));
 }

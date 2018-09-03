@@ -9,17 +9,21 @@ $updatescript = str_replace('#PLACEHOLDER-UPDATERFILES#', '$UPDATER_FILES = json
 $updatescript_min = php_minimize($updatescript);
 $updatescript_min = php_var_shortener($updatescript_min);
 //
+$installscript = $updatescript_min . 'unlink(__FILE__); ?><h3>Installation successfull</h3><p><a href="42/">Link to CMS42</a></p>';
+//
 if (!is_dir(DIST)) {
     mkdir(DIST);
 }
 //
 file_put_contents(DIST . 'updater.php', $updatescript);
 file_put_contents(DIST . 'updater.min.php', $updatescript_min);
+file_put_contents(DIST . 'install.php', $installscript);
 usleep(500);
 show_created(DIST . 'updater.php');
 show_created(DIST . 'updater.min.php');
+show_created(DIST . 'install.php');
 //
-file_put_contents(DEMO . 'updater.min.php', $updatescript_min);
+file_put_contents(DEMO . 'install.php', $installscript);
 
 //
 //##Helper Functions

@@ -1,6 +1,6 @@
 <?php
 
-define('DIR_CMS', __DIR__ . '/42/');
+define('DIR_CMS', str_replace('/42', '', __DIR__) . '/42/');
 
 $UPDATE_NEED = null;
 
