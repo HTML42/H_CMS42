@@ -1,5 +1,9 @@
 <?php
 
-#include fetch_files.php
+#include variables.php
 
-echo 'main.php';
+#include check_environment.php
+
+echo 'CMS-Version: ' . CMS_VERSION;
+echo '<br/>';
+echo 'Update needed: ' . strval($UPDATE_NEED);
