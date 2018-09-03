@@ -1,6 +1,6 @@
 <?php
 
-$UPDATER_FILES = json_decode('["index.php","js\/admin.js","less\/basics.less","less\/settings.less","lib\/_html.php","lib\/bootstrap.php","lib\/functions.php","lib\/render.php","script.js","styles.css","version"]');
+$UPDATER_FILES = json_decode('["index.php","lib\/_html.php","lib\/bootstrap.php","lib\/functions.php","lib\/render.php","script.js","styles.css","version"]');
 
 function _get($url) {
     if (is_string($url) && strlen($url) > 5) {
@@ -39,7 +39,7 @@ function ensure_structure($folders) {
         }
     }
 }
-define('DIR_CMS', str_replace('/42', '', __DIR__) . '/42/');
+define('DIR_CMS', str_replace('/42/lib', '', __DIR__) . '/42/');
 
 $UPDATE_NEED = null;
 
