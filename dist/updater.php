@@ -29,7 +29,7 @@ function ensure_structure($folders) {
         foreach ($folders as $folder) {
             $parts = explode('/', $folder);
             $parts = array_filter($parts, 'strlen');
-            $current_folder_path = (substring($folder, 0, 1) == '/' ? '/' : '');
+            $current_folder_path = (substr($folder, 0, 1) == '/' ? '/' : '');
             foreach ($parts as $part) {
                 $current_folder_path .= $part . '/';
                 if (!is_dir($current_folder_path)) {

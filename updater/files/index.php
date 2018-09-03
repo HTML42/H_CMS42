@@ -2,4 +2,4 @@
 
 <h1>Administration</h1>
 
-<?php include 'lib/render.php'; ?>
+<?php include DIR_LIB . 'render.php'; ?>
