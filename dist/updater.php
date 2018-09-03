@@ -1,5 +1,23 @@
 <?php
 
+function _get($url) {
+    if (is_string($url) && strlen($url) > 5) {
+        $url = trim($url);
+        ob_start();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $ch_exec = curl_exec($ch);
+        curl_close($ch);
+        $return = ob_get_clean();
+        if(!in_array(trim($return), array('404: Not Found'))) {
+            return $return;
+        } else {
+            return null;
+        }
+    }
+    return null;
+}
 define('DIR_CMS', __DIR__ . '/42/');
 
 $UPDATE_NEED = null;
@@ -20,7 +38,14 @@ if (!is_dir(DIR_CMS)) {
 if (!is_string(CMS_VERSION) || strlen(CMS_VERSION) < 1) {
     $UPDATE_NEED = true;
 }
+$baseurl = 'https://raw.githubusercontent.com/HTML42/H_CMS42/master/';
+$baseurl_files = $baseurl . 'updater/files/';
 
+$_cdn_version = _get($baseurl_files . 'version');
+define('CDN_VERSION', is_string($_cdn_version) ? $_cdn_version : null);
+
+echo 'CDN-Version: ' . CDN_VERSION;
+echo '<br/>';
 echo 'CMS-Version: ' . CMS_VERSION;
 echo '<br/>';
 echo 'Update needed: ' . strval($UPDATE_NEED);
