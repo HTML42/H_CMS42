@@ -1,2 +1,5 @@
-<h1>CMS-Administration</h1>
-<p>CMS-Version: <?= VERSION ?></p>
+<?php include 'lib/bootstrap.php'; ?>
+
+<h1>Administration</h1>
+
+<?php include 'lib/render.php'; ?>

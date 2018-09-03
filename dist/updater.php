@@ -1,6 +1,6 @@
 <?php
 
-$UPDATER_FILES = json_decode('["index.php","version"]');
+$UPDATER_FILES = json_decode('["index.php","lib\/_html.php","lib\/bootstrap.php","lib\/render.php","version"]');
 
 function _get($url) {
     if (is_string($url) && strlen($url) > 5) {
@@ -12,13 +12,32 @@ function _get($url) {
         $ch_exec = curl_exec($ch);
         curl_close($ch);
         $return = ob_get_clean();
-        if(!in_array(trim($return), array('404: Not Found'))) {
+        if (!in_array(trim($return), array('404: Not Found'))) {
             return $return;
         } else {
             return null;
         }
     }
     return null;
+}
+
+function ensure_structure($folders) {
+    if (is_string($folders)) {
+        $folders = array($folders);
+    }
+    if (is_array($folders)) {
+        foreach ($folders as $folder) {
+            $parts = explode('/', $folder);
+            $parts = array_filter($parts, 'strlen');
+            $current_folder_path = (substring($folder, 0, 1) == '/' ? '/' : '');
+            foreach ($parts as $part) {
+                $current_folder_path .= $part . '/';
+                if (!is_dir($current_folder_path)) {
+                    mkdir($current_folder_path);
+                }
+            }
+        }
+    }
 }
 define('DIR_CMS', str_replace('/42', '', __DIR__) . '/42/');
 
@@ -56,6 +75,7 @@ if (!is_string(CMS_VERSION) || strlen(CMS_VERSION) < 1) {
 if($UPDATE_NEED) {
     if (isset($UPDATER_FILES) && is_array($UPDATER_FILES)) {
     foreach ($UPDATER_FILES as $relative_filepath) {
+        ensure_structure(dirname(DIR_CMS . $relative_filepath));
         file_put_contents(DIR_CMS . $relative_filepath, _get($baseurl_files . $relative_filepath));
     }
 }
