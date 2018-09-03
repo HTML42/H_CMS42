@@ -1,6 +1,6 @@
 <?php
 
-$UPDATER_FILES = json_decode('["index.php","lib\/_html.php","lib\/bootstrap.php","lib\/render.php","version"]');
+$UPDATER_FILES = json_decode('["index.php","js\/admin.js","less\/basics.less","less\/settings.less","lib\/_html.php","lib\/bootstrap.php","lib\/functions.php","lib\/render.php","script.js","styles.css","version"]');
 
 function _get($url) {
     if (is_string($url) && strlen($url) > 5) {

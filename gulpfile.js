@@ -28,7 +28,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('updater_less', function () {
-    return gulp.src('./updater/files/less/**/*.less')
+    return gulp.src('./updater/less/**/*.less')
             .pipe(concat('styles.css'))
             .pipe(sourcemaps.init())
             .pipe(less())
@@ -37,15 +37,15 @@ gulp.task('updater_less', function () {
             .pipe(gulp.dest('./updater/files/'));
 });
 gulp.task('updater_js', function () {
-    return gulp.src('./updater/files/js/**/*.js')
+    return gulp.src('./updater/js/**/*.js')
             .pipe(sourcemaps.init())
             .pipe(concat('script.js'))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest('./updater/files/'));
 });
 gulp.task('updater_watch', function () {
-    gulp.watch('./updater/files/less/**/*.less', ['updater_less']);
-    gulp.watch('./updater/files/js/**/*.js', ['updater_js']);
+    gulp.watch('./updater/less/**/*.less', ['updater_less']);
+    gulp.watch('./updater/js/**/*.js', ['updater_js']);
 });
 
 

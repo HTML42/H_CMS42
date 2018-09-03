@@ -2,4 +2,4 @@
 
 $content = trim(ob_get_clean());
 
-include __DIR__ . '/_html.php';
+include DIR_LIB . '_html.php';
