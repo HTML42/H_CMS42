@@ -16,4 +16,10 @@ define('IS_DEMO', (strstr($lib_dir, '/demo/42/lib') && in_array('updater', scand
 
 //Configs
 $configfiles_cms = DIR_CMS . 'appconfig/cms.json';
-$CONFIGS_CMS = json_decode(file_get_contents($configfiles_cms), true);
+if (is_file($configfiles_cms)) {
+    $CONFIGS_CMS = json_decode(file_get_contents($configfiles_cms), true);
+} else {
+    $CONFIGS_CMS = array(
+        'update_direct' => false
+    );
+}

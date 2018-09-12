@@ -1,7 +1,9 @@
 setTimeout(function () {
-    console.log('Admin-Area');
+    c42('Admin-Area');
 
     $('.update_trigger').click(function() {
-        console.log('Click');
+        $.get('ajax/update.php', function(response) {
+            c42('UPDATE:', response);
+        });
     });
 }, 1);
