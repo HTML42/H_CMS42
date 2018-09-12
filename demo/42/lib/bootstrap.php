@@ -1,7 +1,6 @@
 <?php
 
-$lib_dir = str_replace('\\', '/', __DIR__);
-define('DIR_CMS', str_replace('/lib', '/', $lib_dir));
+define('DIR_CMS', str_replace('/lib', '/', str_replace('\\', '/', __DIR__)));
 define('DIR_LIB', DIR_CMS . 'lib/');
 
 define('RAWGIT_URL', 'https://raw.githubusercontent.com/HTML42/H_CMS42/master/');
@@ -12,7 +11,7 @@ include DIR_LIB . 'functions.php';
 define('VERSION', trim(file_get_contents(DIR_CMS . 'version')));
 define('CDN_VERSION', _get(RAWGIT_FILES . 'version'));
 
-define('IS_DEMO', (strstr($lib_dir, '/demo/42/lib') && in_array('updater', scandir(str_replace('/demo/42/lib', '', $lib_dir)))));
+define('IS_DEMO', (strstr(DIR_LIB, '/demo/42/lib') && in_array('updater', scandir(str_replace('/demo/42/lib', '', DIR_LIB)))));
 
 //Configs
 $configfiles_cms = DIR_CMS . 'appconfig/cms.json';
