@@ -11,6 +11,7 @@
                 <span class="current"><?= VERSION ?></span>
                 <span class="cdn_version"><?= CDN_VERSION ?></span>
             </div>
+            <div class="button update_trigger">UPDATE</div>
         </header>
         <main><?= $content ?></main>
         <script src="script.js" async></script>

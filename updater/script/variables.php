@@ -1,6 +1,6 @@
 <?php
 
-define('DIR_CMS', str_replace('/42' . DIRECTORY_SEPARATOR . 'lib', '', __DIR__) . '/42/');
+define('DIR_CMS', str_replace('/42/lib', '', str_replace('\\', '/', __DIR__)) . '/42/');
 
 $UPDATE_NEED = null;
 
