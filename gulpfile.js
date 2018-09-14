@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var watch = require('gulp-watch');
 var path = require('path');
 var concat = require('gulp-concat');
+var str_replace = require('gulp-string-replace');
 //
 var jshint = require('gulp-jshint');
 var jsmin = require('gulp-jsmin');
@@ -11,6 +12,7 @@ var gutil = require('gulp-util');
 var imagemin = require('gulp-imagemin');
 var clean = require('gulp-clean');
 var minifyhtml = require('gulp-minify-html');
+var strip_console = require('rocambole-strip-console');
 //
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
@@ -37,11 +39,21 @@ gulp.task('updater_less', function () {
             .pipe(gulp.dest('./updater/files/'));
 });
 gulp.task('updater_js', function () {
-    return gulp.src('./updater/js/**/*.js')
+    gulp.src('./updater/js/**/*.js')
             .pipe(sourcemaps.init())
             .pipe(concat('script.js'))
+            .pipe(str_replace(/c42/g, 'console.log'))
             .pipe(sourcemaps.write())
-            .pipe(gulp.dest('./updater/files/'));
+            .pipe(gulp.dest('./updater/files/'))
+            .pipe(gulp.dest('./demo/42/'));
+    gulp.src('./updater/js/**/*.js')
+            .pipe(str_replace(/c42\(.*\);/g, ''))
+            .pipe(jsmin())
+            .pipe(uglify())
+            .pipe(concat('script.min.js'))
+            .pipe(gulp.dest('./updater/files/'))
+            .pipe(gulp.dest('./demo/42/'));
+    return true;
 });
 gulp.task('updater_watch', function () {
     gulp.watch('./updater/less/**/*.less', ['updater_less']);

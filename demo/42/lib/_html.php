@@ -14,6 +14,6 @@
             <div class="button update_trigger">UPDATE</div>
         </header>
         <main><?= $content ?></main>
-        <script src="script.js" async></script>
+        <script src="script<?= (IS_DEMO ? '' : '.min') ?>.js" async></script>
     </body>
 </html>
