@@ -1,6 +1,6 @@
 <?php
 
-$UPDATER_FILES = json_decode('[".gitignore","ajax\/update.php","index.php","lib\/_html.php","lib\/bootstrap.php","lib\/functions.php","lib\/render.php","script.js","script.min.js","styles.css","version"]');
+$UPDATER_FILES = json_decode('[".gitignore","ajax\/create_missing.php","ajax\/update.php","index.php","lib\/_html.php","lib\/bootstrap.php","lib\/functions.php","lib\/render.php","script.js","script.min.js","styles.css","version"]');
 
 if (!function_exists('_get')) {
 
