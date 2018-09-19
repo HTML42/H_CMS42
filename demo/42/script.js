@@ -1,4 +1,4 @@
-setTimeout(function () {
+/* TEST */setTimeout(function () {
     console.log('Admin-Area');
 
     $('.update_trigger').click(function() {
