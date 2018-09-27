@@ -6,7 +6,7 @@ if ($CONFIGS_CMS['update_direct']) {
     $UPDATER_FILES = DIR_CMS . '../../updater/files/';
     $files = updater_files();
     foreach($files as $file) {
-        file_put_contents(DIR_CMS . $file, $UPDATER_FILES . $file);
+        file_put_contents(DIR_CMS . $file, file_get_contents($UPDATER_FILES . $file));
     }
     echo 2;
 } else {

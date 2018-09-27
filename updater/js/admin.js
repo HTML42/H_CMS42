@@ -15,4 +15,16 @@ setTimeout(function () {
             }
         });
     });
+
+    $('.missing_trigger').click(function() {
+        $.get('ajax/create_missing.php', function(response) {
+            response = $.trim(response);
+            if(response === '1') {
+                alert('Successfully created missing.');
+                location.reload(true);
+            } else {
+                alert('Update failed.');
+            }
+        });
+    });
 }, 1);

@@ -11,7 +11,10 @@
                 <span class="current"><?= VERSION ?></span>
                 <span class="cdn_version"><?= CDN_VERSION ?></span>
             </div>
-            <div class="button update_trigger">UPDATE</div>
+            <div class="buttons">
+                <div class="button update_trigger">UPDATE</div>
+                <div class="button missing_trigger">CREATE MISSING</div>
+            </div>
         </header>
         <main><?= $content ?></main>
         <script src="script<?= (IS_DEMO ? '' : '.min') ?>.js" async></script>
