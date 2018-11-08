@@ -15,8 +15,13 @@
                 <div class="button update_trigger">UPDATE</div>
                 <div class="button missing_trigger">CREATE MISSING</div>
             </div>
+            <?= inc('navigation') ?>
         </header>
-        <main><?= $content ?></main>
+        <main>
+            <article>
+                <?= $content ?>
+            </article>
+        </main>
         <script src="script<?= (IS_DEMO ? '' : '.min') ?>.js" async></script>
     </body>
 </html>

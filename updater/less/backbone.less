@@ -4,12 +4,74 @@ header {
     left: 0;
     right: 0;
     height: @header_height;
+    .logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        padding: 0 @distance_normal;
+        height: @header_height;
+        line-height: @header_height;
+        font-size: @font_size_big;
+        font-weight: 700;
+        font-style: italic;
+    }
+    .version, .buttons {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        height: @header_height;
+        line-height: @header_height;
+    }
+    .version {
+        right: 0;
+        width: 100px;
+        text-align: center;
+        span {
+            display: inline-block;
+            line-height: 1.2em;
+            vertical-align: middle;
+            + span {
+                padding-left: @distance_tiny;
+                border-left: 1px solid rgba(0, 0, 0, 0.2);
+                margin-left: @distance_tiny;
+            }
+        }
+    }
     .buttons {
+        right: 100px;
+        .button {
+            line-height: 1.2em;
+        }
+    }
+    nav {
         position: absolute;
         top: @distance_normal;
-        right: @distance_normal;
+        left: 200px;
+        > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            > li {
+                float: left;
+                margin: 0;
+                padding: 0;
+                > a {
+                    display: block;
+                }
+            }
+        }
     }
 }
 main {
     padding-top: @header_height;
+    article {
+        padding: @distance_small @distance_normal;
+        //
+        h1 {
+            margin: -@distance_small -@distance_normal 0;
+            padding: @distance_small @distance_normal;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
 }

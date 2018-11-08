@@ -22,9 +22,11 @@ setTimeout(function () {
             if(response === '1') {
                 alert('Successfully created missing.');
                 location.reload(true);
+            } else if(response === '2') {
+                alert('Everything is fine, nothing is missing.');
             } else {
-                alert('Update failed.');
+                alert('Failed.');
             }
         });
     });
-}, 1);
+}, 100);
